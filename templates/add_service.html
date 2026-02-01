@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Schedule Service</h2>
+  <form method="post">
+    <label>Customer</label>
+    <select name="customer_id" required>
+      {% for c in customers %}
+        <option value="{{ c.customer_id }}">{{ c.full_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Vehicle VIN</label>
+    <select name="vin" required>
+      {% for v in vehicles %}
+        <option value="{{ v.vin }}">{{ v.vin }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Service Date</label>
+    <input type="date" name="service_date" required>
+
+    <label>Service Type</label>
+    <select name="service_type" required>
+      <option value="Tire Rotation">Tire Rotation</option>
+      <option value="Brake Inspection">Brake Inspection</option>
+      <option value="Battery Check">Battery Check</option>
+      <option value="Software Update">Software Update</option>
+      <option value="Annual Service">Annual Service</option>
+    </select>
+
+    <button type="submit">Schedule</button>
+  </form>
+</div>
+{% endblock %}

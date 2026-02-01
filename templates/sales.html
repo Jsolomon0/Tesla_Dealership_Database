@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Recent Sales</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Sale ID</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th>VIN</th>
+        <th>Model</th>
+        <th>Customer</th>
+        <th>Employee</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.sale_id }}</td>
+        <td>{{ r.sale_date }}</td>
+        <td>${{ '%.2f'|format(r.sale_price) }}</td>
+        <td>{{ r.vin }}</td>
+        <td>{{ r.model_name }}</td>
+        <td>{{ r.customer }}</td>
+        <td>{{ r.employee }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

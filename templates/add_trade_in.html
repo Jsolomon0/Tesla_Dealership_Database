@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Add Trade-In</h2>
+  <form method="post">
+    <label>Sale ID</label>
+    <select name="sale_id" required>
+      {% for s in sales %}
+        <option value="{{ s.sale_id }}">{{ s.sale_id }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Trade-In VIN (optional)</label>
+    <input type="text" name="vin" maxlength="17">
+
+    <label>Make</label>
+    <input type="text" name="make" required>
+
+    <label>Model</label>
+    <input type="text" name="model" required>
+
+    <label>Model Year</label>
+    <input type="number" name="model_year" min="2000" required>
+
+    <label>Mileage</label>
+    <input type="number" name="mileage" min="0" required>
+
+    <label>Allowance</label>
+    <input type="number" step="0.01" name="allowance" required>
+
+    <button type="submit">Add Trade-In</button>
+  </form>
+</div>
+{% endblock %}

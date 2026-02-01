@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tesla Database</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('vehicles') }}">Vehicles</a>
+    <a href="{{ url_for('add_review') }}">Add Review</a>
+    <a href="{{ url_for('add_sale') }}">Record Sale</a>
+    <a href="{{ url_for('add_service') }}">Schedule Service</a>
+    <a href="{{ url_for('sales') }}">Recent Sales</a>
+    <a href="{{ url_for('financing') }}">Financing</a>
+    <a href="{{ url_for('loans') }}">Loans</a>
+    <a href="{{ url_for('add_loan') }}">Add Loan</a>
+    <a href="{{ url_for('trade_ins') }}">Trade-Ins</a>
+    <a href="{{ url_for('add_trade_in') }}">Add Trade-In</a>
+    <a href="{{ url_for('transfers') }}">Transfers</a>
+    <a href="{{ url_for('add_transfer') }}">Add Transfer</a>
+    <a href="{{ url_for('service_invoices') }}">Service Invoices</a>
+    <a href="{{ url_for('add_service_item') }}">Add Service Item</a>
+  </nav>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

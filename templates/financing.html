@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Lenders</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in lenders %}
+      <tr>
+        <td>{{ l.name }}</td>
+        <td>{{ l.phone }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Financing Plans</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Lender</th>
+        <th>Plan</th>
+        <th>APR</th>
+        <th>Term (months)</th>
+        <th>Min Down</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in plans %}
+      <tr>
+        <td>{{ p.lender }}</td>
+        <td>{{ p.plan_name }}</td>
+        <td>{{ p.apr }}%</td>
+        <td>{{ p.term_months }}</td>
+        <td>${{ '%.2f'|format(p.min_down_payment) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

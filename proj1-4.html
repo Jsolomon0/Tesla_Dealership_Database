@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <meta name="ROBOTS" content="NOARCHIVE">
+    <title>cs4111.001: Project Part 4</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" type="text/css" href="http://www.cs.columbia.edu/~kar/projstyle.css"/>
+  </head>
+
+<body>
+<div class="container sec">
+
+<div style="background-color:#9bddff; color:#4682B4; padding:8px;">
+  <h4><a href="./index.html">COMS W4111.001-Introduction to Databases</a><br>
+  Spring 2023</h4>
+  <h2>Project Part 4</h2>
+  <h4>(worth 20% of overall Project grade)</h4>
+  <h4>Due Date: April 17, 11:59 p.m.</h4>
+</div>
+
+<h3>Project description</h3>
+
+<p>This project will expand the database schema of your Project
+Part 3. In this part of the project, you will learn about some of
+the <strong>advanced features</strong>&mdash;object-relational and
+otherwise&mdash;of the PostgreSQL database management system, and you
+will expand your final Project 1, Part 3 database schema&mdash;not
+your web front-end, even if you followed the Web Front-End Option for
+Part 3 of Project 1&mdash;to incorporate some of these
+features. Specifically, for this project you will expand your final
+database schema from Part 3 by adding to the schema your choice of
+3 out of the 4 items below:</p>
+<ul>
+
+<li>Add to your schema at least one
+<a href="https://www.postgresql.org/docs/12/datatype-textsearch.html">text</a>
+attribute, over which you can do <a href="https://www.postgresql.org/docs/12/textsearch.html">
+full-text search, as described here</a>. (You can focus on Sections 12.1 and
+12.2.) You can either add the new text attribute to one of your
+existing tables
+using <a href="https://www.postgresql.org/docs/12/sql-altertable.html">ALTER
+TABLE</a> or you can create a new table altogether that contains one
+text attribute (and other attributes, of course). In either case, this
+text attribute should hold document-style data (i.e., a paragraph or
+more of natural language text, such as in a news article); the text
+attribute should not hold regular strings. For example, it is OK for
+the new attribute to correspond to, say, the text of a product review
+by a user; it is not OK for the new attribute to correspond to a
+product name or a userid, which would be more naturally modeled with a
+regular VARCHAR attribute. Text search functions and operators in
+PostgreSQL are
+documented <a href="https://www.postgresql.org/docs/12/functions-textsearch.html">here</a>. Note:
+    You should use single quotes for inserting text values.</li>
+
+  <li>Add to your schema at least
+  one <a href="https://www.postgresql.org/docs/12/arrays.html">array</a>
+  attribute. You can either add the new array attribute to one of your
+  existing tables
+  using <a href="https://www.postgresql.org/docs/12/sql-altertable.html">ALTER
+  TABLE</a> or you can create a new table altogether that contains one
+  array attribute (and other attributes, of course). Array functions
+  and operators in PostgreSQL are
+  documented <a href="https://www.postgresql.org/docs/12/functions-array.html">here</a>. Note:
+  PostgreSQL uses a "one-based" numbering convention for arrays (i.e.,
+  an array of n elements will have them numbered from 1 through n by
+  default). </li>
+
+  <li>Define a new composite type
+  using <a href="https://www.postgresql.org/docs/12/sql-createtype.html">CREATE
+  TYPE</a> and create a new table in your schema of that type (see the
+  "CREATE TABLE employees OF employee_type..."
+  example <a href="https://www.postgresql.org/docs/12/sql-createtable.html">here</a>).</li>
+
+  <li>Define a trigger in your database
+  using <a href="https://www.postgresql.org/docs/12/sql-createtrigger.html">CREATE
+  TRIGGER</a>. PostgreSQL requires that the "action" part of the
+  trigger be carried out by a user-defined function, so you will have
+  to also write such a user-defined function
+  using <a href="https://www.postgresql.org/docs/12/sql-createfunction.html">CREATE
+  FUNCTION</a>. For our project, you should write this function
+  using <a href="https://www.postgresql.org/docs/12/plpgsql.html">PL/pgSQL,
+  PostgreSQL's "SQL Procedural Language."</a> You can find a
+  discussion on how to define trigger procedures in this simple
+  language <a href="https://www.postgresql.org/docs/12/plpgsql-trigger.html">here.</a></li>
+</ul>
+
+<p>For this project, you should:</p>
+<ol>
+<li>Expand your final Project 1 schema on our PostgreSQL server with
+your choice of 3 out of the 4 items above. </li>
+<li>Add data to your database so that (a) each new table that you
+created has at least 10 tuples and (b) each new attribute that you
+added to existing tables has meaningful values for all tuples in the
+tables.</li>
+<li>Write a thorough, revealing README file following the instructions
+below.</li>
+</ol>
+
+<p>Needless to say, your additions to your schema&mdash;including the
+definition of a trigger, if you choose to add a trigger&mdash;should
+be a meaningful, integrated addition to your Part 3 database. Your
+final schema should include all the relations and constraints from
+Part 3, plus the additional features specified above. You
+will not demonstrate or expand any web front-end for your database,
+but rather just expand your database schema. <strong>You are welcome
+and encouraged to discuss your additions to your Part 3
+schema with your TA mentor.</strong></p>
+
+<p><strong>Important Note 1:</strong> The additions to your schema
+  described above indeed need to be additions, not already present in
+  your Project 1 schema. For example, if your Project 1 schema already
+  included
+  a <a href="https://www.postgresql.org/docs/12/datatype-textsearch.html">text
+  attribute</a>, you cannot use this attribute to count as "an
+  addition" for Part 4. Instead, you need to follow the guidelines
+  above to truly expand your Part 3 schema with new features not
+  already present in it.</p>
+
+<p><strong>Important Note 2:</strong> If your Part 3 schema has an
+  attribute that would be most naturally modeled as having
+  a <a href="https://www.postgresql.org/docs/12/datatype-textsearch.html">text
+  type</a>, then it is OK for you to change the type of the attribute
+  to a text type for Part 4 and have this changed attribute count as one
+  of your additions for the project. (The same comment applies to
+  <a href="https://www.postgresql.org/docs/12/arrays.html">array</a>.)
+  However, you should only do this if the new type, text (or array),
+  is indeed a good, natural choice for the attribute according to the
+  guidelines above.</p>
+
+<h3>What to submit and when</h3>
+
+<p>You will submit this part of the project electronically on
+CourseWorks via gradescope directly. The deadline is <strong>April 17 at 11:59
+p.m.</strong> As before,
+you should submit your project exactly once per team, rather than once
+per student. You should
+submit a single (plain text or pdf) README file containing:</p>
+<ol>
+<li>The name and UNI of both teammates. </li>
+
+<li>The name of the PostgreSQL account where your database is on our
+server (i.e., specify which teammate's UNI we should use to identify
+the database for your team). This is the database on which we will
+base our grading.</li>
+
+<li>A thorough explanation of the three items above with which you
+expanded your project. Explain carefully your rationale behind your
+modifications to the schema and how these modifications fit within
+your overall project.</li>
+
+<li>If you added a trigger, explain carefully what it is meant to
+achieve and why.  Also include in your README file a real example of
+an "event" (i.e., an insertion, deletion, or update of a relation in
+your database, as specified in your trigger definition) that causes
+the trigger to be executed, together with a clear explanation of what
+the trigger does as a result of the event, including listing clearly
+any modifications to the database that happen as part of the
+trigger. Your description should be detailed enough so that we can
+recreate on your PostgreSQL database the execution of the trigger
+exactly as you describe it, and part of your grade will be based on
+the quality and accuracy of this description.</li>
+
+<li>Substantial, meaningful queries involving the new attributes and
+tables in your schema, with a sentence or two per query explaining
+what the query is supposed to compute. If one of your three added
+items is a trigger, then you need to submit two queries (in addition
+to the trigger information in the previous bullet); otherwise, you
+need to submit three queries. All your new attributes and tables
+should appear at least once in one of the queries that you submit. For
+a text attribute, make sure at least one of your queries
+uses <a href="https://www.postgresql.org/docs/12/textsearch.html">full-text
+search, as described here</a>. For an array attribute, make sure at
+least one of your queries accesses elements in the array. Overall,
+your queries should work over your PostgreSQL database as
+submitted. We will run them against your database and part of your
+grade will be based on them, so please choose your queries
+carefully. We strongly suggest that you submit well formed queries
+that run without problems, so please make sure that you have tested
+your queries by running them on your database exactly as submitted
+(use copy and paste).</li>
+</ol>
+
+<h3>Grading</h3>
+
+<p>You will be graded on:</p>
+<ul>
+  <li>The quality of your expansion of your Part 3 design with
+  three advanced features, as specified above; to get full credit, you
+  should add such features to your Part 3 design in a natural and
+  meaningful way.</li>
+
+  <li>The quality of the real-world (or at least realistic) data that
+  you added to the database&mdash;expanding on the data that is
+  already in your database from Part 3, which you should
+  keep&mdash;to use the new features, as specified in Item 2 in the
+  "Project description" above. </li>
+ 
+  <li>The quality of your README file, including the descriptions,
+  queries, and other features specified in the "What to submit and
+  when" section above.</li>
+</ul>
+
+</div>
+<hr>
+</body>
+</html>

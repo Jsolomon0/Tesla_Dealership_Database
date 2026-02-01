@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Vehicle Details</h2>
+  {% if vehicle %}
+  <p><strong>VIN:</strong> {{ vehicle.vin }}</p>
+  <p><strong>Model:</strong> {{ vehicle.model_name }} ({{ vehicle.model_year }})</p>
+  <p><strong>Color:</strong> {{ vehicle.color }}</p>
+  <p><strong>Mileage:</strong> {{ vehicle.mileage }}</p>
+  <p><strong>Price:</strong> ${{ '%.2f'|format(vehicle.price) }}</p>
+  <p><strong>Available:</strong> {{ 'Yes' if vehicle.available else 'No' }}</p>
+  <p><strong>Dealership:</strong> {{ vehicle.dealership }} ({{ vehicle.city }}, {{ vehicle.state }})</p>
+  <p><strong>Features:</strong> {{ vehicle.features }}</p>
+  {% else %}
+  <p>Vehicle not found.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h3>Reviews</h3>
+  {% if reviews %}
+    <ul>
+      {% for r in reviews %}
+        <li><strong>{{ r.full_name }}</strong> ({{ r.rating }}/5) - {{ r.review_date }}<br>{{ r.review_text }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h3>Service Appointments</h3>
+  {% if services %}
+    <ul>
+      {% for s in services %}
+        <li>{{ s.service_date }} - {{ s.service_type }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No service appointments.</p>
+  {% endif %}
+</div>
+{% endblock %}

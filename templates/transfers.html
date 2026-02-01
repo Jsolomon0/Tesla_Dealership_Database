@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Inventory Transfers</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Transfer ID</th>
+        <th>VIN</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.transfer_id }}</td>
+        <td>{{ r.vin }}</td>
+        <td>{{ r.from_dealership }}</td>
+        <td>{{ r.to_dealership }}</td>
+        <td>{{ r.transfer_date }}</td>
+        <td>{{ r.status }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

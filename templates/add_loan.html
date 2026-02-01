@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Add Loan</h2>
+  <form method="post">
+    <label>Sale ID</label>
+    <select name="sale_id" required>
+      {% for s in sales %}
+        <option value="{{ s.sale_id }}">{{ s.sale_id }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Financing Plan</label>
+    <select name="plan_id" required>
+      {% for p in plans %}
+        <option value="{{ p.plan_id }}">{{ p.lender }} - {{ p.plan_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Principal</label>
+    <input type="number" step="0.01" name="principal" required>
+
+    <label>Down Payment</label>
+    <input type="number" step="0.01" name="down_payment" required>
+
+    <label>Start Date</label>
+    <input type="date" name="start_date" required>
+
+    <label>Status</label>
+    <select name="status" required>
+      <option value="Active">Active</option>
+      <option value="Paid">Paid</option>
+      <option value="Defaulted">Defaulted</option>
+    </select>
+
+    <button type="submit">Add Loan</button>
+  </form>
+</div>
+{% endblock %}

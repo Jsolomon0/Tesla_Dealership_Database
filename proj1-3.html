@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <meta name="ROBOTS" content="NOARCHIVE">
+    <title>cs4111.001: Project Part 3</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" type="text/css" href="http://www.cs.columbia.edu/~gravano/style.css"/>
+  </head>
+
+<body>
+<div class="container sec">
+
+<div style="background-color:#9bddff; color:#4682B4; padding:8px;">
+  <h4><a>COMS W4111.001-Introduction to Databases</a><br>
+  Spring 2023</h4>
+  <h2>Project Part 3</h2>
+  <h4>(worth 40% of overall Project grade)</h4>
+</div>
+
+<h3>Your team</h3>
+
+<p>You will do Part 3 with the same team as for Part
+1. If your team partner dropped the class and you did not submit a
+contingency plan for this with your Part 1 submission, then
+unfortunately you will still have to complete the whole project by
+yourself. If you team partner dropped the class and you did submit a
+contingency plan for this with your Part 1 submission, then you are
+welcome to switch to this reduced version of your project.</p>
+
+
+<h3>Overview of Part 3</h3>
+
+<p>As you recall from <a href="proj1-1.html">Part 1</a>, you had
+two options for Part 3 of the project: you could either follow the Web
+Front-End Option or the Expanded-Design Option. You will follow for
+Part 3 the option that you stated in Part 1.</p>
+
+<h4>Important notes</h4>
+
+<ul>
+  <li>You should make sure that you loaded sufficient data into your
+    database to show off all functionality of your application.</li>
+
+  <li>You can make (hopefully small) changes to the SQL schema that
+    you created in Part 2. If for some strange reason you feel the
+    need to make any radical changes, please check with your project
+    mentor ahead of time to avoid any last-minute surprises.</li>
+</ul>
+
+<hr>
+
+<h3>Web Front-End Option</h3>
+
+<p>If you are following the Web Front-End option, you will finish
+building the application that you proposed in Part 1, on top of the
+database that you created in Part 2. For the final evaluation of
+Project Part 3, you will need to submit your code for your application and
+a README file on CourseWorks by <strong>Monday April 3</strong> (see below for further instructions). Also, both team
+members will meet with your project mentor between April 4th and April 7th. Your project mentor will contact you shortly to
+<strong>schedule a 15-minute meeting</strong> for one of those
+days. Your implementation will be on Python 3 using Flask, and should
+satisfy these requirements:</p>
+
+<ul>
+  <li>Your application must execute SQL query strings on your database
+    on our class's PostgreSQL server.  You cannot use an
+    Object-Relational Mapper, or ORM. An important goal of this
+    project is that you practice writing and debugging SQL queries as
+    part of your application, so tools that attempt to make this "too
+    easy" are not permitted.</li>
+
+  <li>Your application must provide a way to view or interact with all
+  the entities and relationships in your final E/R diagram.</li>
+  
+  <li>Your application's web interface does not need to be beautiful
+  or sophisticated. Plain text pages are acceptable. You will not get
+  additional credit for fancy interfaces, as this is not the focus of
+  our course.</li>
+
+  <li>In general, you can use any third-party libraries you want
+  except for ORMs or other libraries that simplify database access,
+  which are not allowed. If you are unsure if a library is permitted,
+  ask your project mentor.</li>
+
+</ul>
+
+<p>The following resources may be helpful for learning both Python and
+Flask:</p>
+
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/">Python
+tutorial</a></li>
+<li><a href="https://flask.palletsprojects.com/en/2.2.x/">Flask documentation</a></li>
+<li><a href="https://flask.palletsprojects.com/en/2.2.x/tutorial/">Flask tutorial</a></li>
+<li><a href="https://palletsprojects.com/p/jinja/">Jinja template documentation</a></li>
+<li><a href="https://realpython.com/primer-on-jinja-templating/">Jinja tutorial</a></li>
+</ul>
+
+<h4>Getting started</h4>
+
+<p>Your job is to implement your proposed web application. To help you
+out, we have provided a bare-bones Flask web
+application, <code>server.py</code>, <a href="webserver.tar">available
+here</a>. It provides code that connects to a database URL, and a
+default index page. Take a look at the comments
+  in <code>server.py</code> to see how to use or modify the server.
+  In particular, note that you will need to modify the value of
+  <code>DATABASEURI</code> inside <code>server.py</code>, to refer
+  to your PostgreSQL username and password.
+  You
+will need to connect to your database from Part 2. Please read all
+these directions. Once you get it running, you should start working on
+  your custom logic.</p>
+
+<p><strong>Important:</strong> Please run <code>python --version</code> to
+  figure out what version of Python is the default in your VM/virtual
+  environment. If the version is 2.7.*, you will need to run Python
+  as <code>python3</code> to make sure you are using Python 3.</p>
+  
+
+<h4>A short introduction to SQLAlchemy</h4>
+
+<p>We use a Python package called <code>SQLAlchemy</code> to simplify
+our work for connecting to the database. For
+example, <code>server.py</code> contains the following code to load
+useful functions from the package:</p>
+<pre>from sqlalchemy import *</pre>
+
+<p><code>SQLAlchemy</code> is able to connect to many different types
+of DBMSs, including SQLite, PostgreSQL, MySQL, and Oracle. Each such
+DBMS is called an "engine." The <code>create_engine()</code> function
+sets up the configuration to the specific DBMS we want to connect
+to:</p>
+
+<pre>engine = create_engine(DATABASEURI)</pre>
+
+<p>Given an engine, we can then connect to it (this is similar to
+how <code>psql</code> connects to our class's PostgreSQL database
+server):</p>
+
+<pre>conn = engine.connect()</pre>
+
+<p>At this point, the <code>conn</code> connection object can be used
+to execute queries to the database. This is basically
+what <code>psql</code> is doing under the covers:</p>
+
+<pre>cursor = conn.execute("select 1")</pre>
+
+<p>The <code>execute</code> function takes a SQL query string as input
+and returns a <code>cursor</code> object. You can think of this as an
+iterator over the result relation. This means you can run <code>SELECT
+*</code> on, say, a million-row table and not run out of
+memory. Instead of receiving the entire result at once, this object
+lets you treat the result as an iterator and call <code>next()</code>
+on it, or loop through it. See the
+  <a href="http://docs.sqlalchemy.org/en/latest/core/connections.html#sqlalchemy.engine.ResultProxy">SQLAlchemy
+  documentation</a> for a detailed description.</p>
+
+<pre># this fetches the first row if called right after
+# the execute function above. It also moves the
+# iterator to the next result row.
+record = cursor.fetchone()
+# this will fetch the next record, or None if
+# there are no more results.
+second_record = cursor.fetchone()
+# this loops through the results of the cursor one by one
+for row in cursor:
+  print (list(row))
+</pre>
+
+<p>The above description is a way to directly write and run SQL
+queries as strings, and directly manipulate the result
+relations. SQLAlchemy also includes
+an <a href="https://en.m.wikipedia.org/wiki/Object-relational_mapping">Object
+Relational Mapper</a> that provides an interface that hides SQL query
+strings and result sets from you. <strong>In this project, you will
+directly write and run SQL queries, and cannot use any ORM
+functionality.</strong></p>
+
+<h4> (Optional) Using a toolkit for application front-end</h4>
+
+You are welcome to use
+the <a href="https://getbootstrap.com/">Bootstrap</a> framework to
+style the front-end of your application. Note that this is by no means
+necessary, and styling your application <strong>will not impact
+grading in any way</strong>; see "Grading for Web Front-End Option"
+below. You are also welcome to use AJAX to create more complex
+interactions with your site. However, if you do so, you must use
+JQuery and you must add a section to your README file describing where
+each call occurs, what triggers the call, what endpoint it hits, and
+the call's purpose. Furthermore, any JavaScript you write must be well
+commented, and cannot rely on frameworks or libraries not mentioned
+here. Particularly, you cannot use any tools that alter the way you
+interact with the database (e.g., GraphQL). If you have any questions
+regarding specific frameworks, please contact your project mentor.
+
+<h4>Working with a version control system</h4>
+
+<p>Since you are working collaboratively with your teammate,
+we <strong>strongly encourage</strong> you to use a version control
+system for your code such as <code>git</code>
+on <a href="https://github.com/">GitHub</a>. You should use
+a <strong>private repository</strong> on GitHub for this project.
+
+<p>We cover below the basics of <code>git</code>
+and <code>GitHub</code>. With this setup, you can code on your own
+desktop, commit and push your changes to the <code>GitHub</code>
+repository, and then pull the updated changes on your Google Cloud
+Compute Engine. You can also code without your teammate being in the
+same room, and your teammate will be aware of the changes after
+"pulling" the code from <code>GitHub</code>. Conversely, your
+teammate will also be able to contribute to the same code repository,
+so you can both work collaboratively. Please follow these steps to get
+started with <code>git</code> and <code>GitHub</code>:</p>
+
+<ol>
+  <li><a href="https://github.com/join?source=header-home">Register an
+  account</a> on <code>GitHub</code>. You will need to
+  provide/verify your email address and provide a username. There is
+  no requirement on what email or username you use here. Your teammate
+  should also register for a different account, so that you both have
+  access to the code repository.</li>
+
+  <li>Once your account is created, log into <code>GitHub</code>.
+    Create a repository by clicking
+    on <a href="https://github.com/new">Create a new
+    repository</a>.</li>
+  
+  <li>Give your repository a name, such as "w4111-proj1". From
+  here on we will use &lt;projectname&gt; to denote the name that you
+  chose in this step for your project. Make sure that you make this
+  repository
+    <strong>Private</strong> by choosing the correct radio button; also
+    do <strong>not</strong> check the README box.</li>
+  
+  <li>Give your teammate access to the repository, as follows: if your
+  repository is at URL <code>&lt;REPOURL&gt;</code>, go to
+  webpage <code>&lt;REPOURL&gt;/settings/collaboration</code> by
+  manually adding "/settings/collaboration" to the URL (e.g., if your
+  repository is at <code>https://github.com/cl3403cl/db4111</code>,
+  then go
+  to <code>https://github.com/cl3403cl/db4111/settings/collaboration</code>). Enter
+  your teammate's <code>GitHub</code> username or email, and click
+  "Add collaborator." Your teammate will receive an invitation by
+  email, which your teammate should accept. After this, we are done
+  with the <code>GitHub</code> web interface.</li>
+
+  <li>You will need to set up SSH keys for the machine using Git, if you haven't done so. To set up SSH keys, please refer to <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux">this page</a>. Note that you only need to complete the subsection titled Generating a new SSH key for Linux.
+Add your newly-generated SSH keys to the GitHub account, as done <A href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">here</a>.
+</li>
+
+  <li>Now start your Google Cloud Compute Engine
+  (recall <a href="gc-setup.html">our instructions for Part 2</a>),
+  <code>ssh</code> into it, and run the following commands:
+<pre>
+# download and extract our skeleton Flask web application
+cd ~
+wget http://www.cs.columbia.edu/~kar/cs4111/spring23/webserver.tar
+# webserver.tar can also be downloaded from Courseworks
+tar xf webserver.tar
+mv webserver &lt;projectname&gt;
+cd &lt;projectname&gt;
+chmod -R 777 .
+# configure your git environment
+git config --global user.name "&lt;your full name&gt;"
+git config --global user.email "&lt;email you used to register for GitHub&gt;"
+# initialize git repository, and push the skeleton files up to the server
+# here &lt;username&gt; denotes your GitHub username
+git init
+git remote add origin &lt;SSH-URL&gt;.git
+git add *
+git commit -m "initial commit"
+git push -u origin master # you will be prompted for your username and password here
+</pre>
+You have now created a local <code>git</code> repository, made your
+first commit, and pushed the files contained in webserver.tar onto
+<code>GitHub</code>. Your usual workflow after these initial steps
+will be a bit different than this, as described in the next step.</li>
+
+  <li>Your workflow with <code>git</code> will typically comprise the
+  following steps:
+    <ol type="a"><li>Pull your changes from the <code>GitHub</code>
+    repository so that your code is up-to-date: <code>git
+    pull</code>. Note that this step is necessary because, when
+    working on a project with a teammate, your teammate may have
+    updated and pushed the code while you were not working on the
+    project, so you should always pull the changes before beginning to
+    work on a new revision.</li>
+      
+      <li>Work on the project, make some changes locally, and test them.</li>
+      
+      <li>See what <code>git</code> thinks you have changed: <code>git
+      status</code></li>
+      
+      <li>Add any modified files to the next "commit." For example, if
+      you modified files <code>server.py</code>
+      and <code>README</code>, then run: <code>git add server.py
+      README</code></li>
+      
+      <li>Commit your changes (locally) with an appropriate commit
+	message: <code>git commit -m "added feature X"</code></li>
+
+      <li>Push your changes to the <code>GitHub</code>
+      server: <code>git push</code></li>
+  </ol></li>
+
+  <li>Step 6 is more or less all you need to get started if you are
+  working on this project alone. However, if you are working as a
+  two-person team, you might even be using different computers to do
+  your coding. (It's cumbersome to develop your code directly on
+  Google Cloud, and it's much more convenient to use your desktop or
+  laptop for writing the code and then "pull" the code into your
+  Google Cloud account using <code>git</code>, as discussed in the
+  "Running your application..." section below.) So if you carried out
+  Step 6 above for your team, then your teammate will need to perform
+  the following steps to get a copy of the code on their desktop or
+  laptop. Similarly, you will have to perform the steps below for any
+  new computer that you want to use to continue developing your code:
+<pre>
+# configure your git environment, as in Step 6
+git config --global user.name "&lt;your full name&gt;"
+git config --global user.email "&lt;email you used to register for GitHub&gt;"
+# clone (i.e., download) the repository onto your local machine
+# use the username of the owner of the repository here
+git clone &lt;REPOURL&gt;.git
+# you're done setting up; you can now continue as in Step 7</pre>
+  </li>
+</ol>
+
+<p><code>git</code> provides many other powerful functions that we
+haven't talked about. For more information, you can refer
+to <a href="http://git-scm.com/docs/gittutorial">this tutorial</a>,
+and documentation on that website. If you encounter a problem with
+<code>git</code>, you can typically do a quick search with the error
+message and get <strong>a lot</strong> of helpful information
+online. Feel free also to come to office hours with any of your
+questions about <code>git</code> and <code>GitHub</code>.</p>
+
+<h4>Running your application on your Google Cloud compute engine</h4>
+
+<p>Once you have developed (a preliminary version of) your web
+application, you will deploy it to your Google Cloud Compute
+Engine, as follows</p>
+<ol>
+  <li>(One time setup) Follow <a href="gcport.html">our directions</a>
+to make a port accessible to the internet so anyone can access your
+    application.</li>
+  <li>Write down the IP of your virtual machine.</li>
+  <li><code>ssh</code> to your virtual machine
+  and <a href="gc-setup.html">enter the virtual environment
+  you created in Part 2 of the project</a>.</li>
+  <li>Make sure you have committed and pushed all the latest changes
+    to your code to your <code>GitHub</code> repository. (See Step
+    7 above.)</li>
+  <li>Copy the latest version of your code to the Google Cloud Compute
+    Engine by running <code>git pull</code> on your virtual
+    machine.</li>
+  <li>Run the Python server with the defaults parameters, which will
+  listen for requests on port 8111. Run with <code>--help</code> if
+  you need help:
+<pre># &lt;projectname&gt; is the name of your repository and directory that you created in Step 6 above
+cd &lt;projectname&gt;
+python3 server.py</pre>
+  </li>
+  <li>Go to <code>http://&lt;IP ADDRESS&gt;:8111/</code> in your browser to check that it worked.</li>
+</ol>
+
+<p>You will need this URL when presenting the project to your
+mentor. Please do not turn off your virtual machine after you are done
+modifying your code and when you are ready to submit, so that your IP
+address does not change and the URL that you include with your project
+  submission works.</p>
+
+<p><strong>Keeping your application running for your meeting with your
+mentor:</strong> To keep your application running "in the background"
+(so that it is available when you meet with your mentor), you can use
+the <code>screen</code> command. To install <code>screen</code>, run on your VM:
+<code>sudo apt-get install screen</code>. Run <code>screen</code> in
+the terminal, then switch to the correct environment
+(recall <a href="gc-setup.html">our instructions for doing so</a>), and
+finally execute your server application normally (i.e., by running
+<code>python3 server.py</code>). After your application finishes
+starting up, press CTRL + a, and then d. The application will be
+running in the background now and it is safe for you to log out of the
+<code>ssh</code> session. Run <code>screen -r</code> to bring back the
+detached screen (and your process) to the foreground, and to stop your
+application (after we are done grading Part 3). (For more information
+and details on <code>screen</code>, please refer
+to <a href="https://www.mattcutts.com/blog/a-quick-tutorial-on-screen/">https://www.mattcutts.com/blog/a-quick-tutorial-on-screen/</a>.)</p>
+
+<h4>What to submit and when for Web Front-End Option</h4>
+
+<p>If you are following the Web Front-End Option, you will need to
+submit your code for your application and a README file on CourseWorks
+by April 3rd. Here are the instructions for your
+electronic submission:</p>
+
+<ul>
+  <li>Create a directory named &lt;groupn&gt;-proj1-3, where you
+  should replace &lt;groupn&gt; with your Project 1 Group as specified
+  on CourseWorks (for example, if your group is "Project 1 Group 9,"
+  then the directory should be named group9-proj1-3).</li>
+  
+  <li>Copy all the Python source code files into the
+  &lt;groupn&gt;-proj1-3 directory, and include all the other files
+  that are necessary for your program to run.</li>
+  
+  <li>Tar and gzip the &lt;groupn&gt;-proj1-3 directory, to generate a
+  single file &lt;groupn&gt;-proj1-3.tar.gz, which is the first file
+    that you will submit.</li>
+
+  <li>Login to CourseWorks and select the site for our class. To
+submit this file, you need to be in the Class view (not the Group
+view) and then upload your file to the "Part 3" assignment under
+Assignments. Submit file &lt;groupn&gt;-proj1-3.tar.gz.</li>
+<li>Separately, submit an uncompressed README file with the following information:
+<ul>
+  <li>The PostgreSQL account where your database on our server
+  resides. (This should be the same database that you used for Part 2,
+    but we need you to confirm that we should check that database.)</li>
+
+  <li>The URL of your web application. Once again, please do not turn
+  off your virtual machine after you are done modifying your code and
+  when you are ready to submit, so that your IP address does not
+  change and the URL that you include with your project submission
+  works.</li>
+  
+  <li>A description of the parts of your original proposal in Part 1
+  that you implemented, the parts you did not (which hopefully is
+  nothing or something very small), and possibly new features that
+  were not included in the proposal and that you implemented
+  anyway. If you did not implement some part of the proposal in Part
+    1, explain why.</li>
+
+  <li>Briefly describe two of the web pages that require (what you
+  consider) the most interesting database operations in terms of what
+  the pages are used for, how the page is related to the database
+  operations (e.g., inputs on the page are used in such and such way
+  to produce database operations that do such and such), and why you
+    think they are interesting.</li>
+</ul>
+</ul>
+
+<p>In summary, you need to submit on CourseWorks exactly two files:
+(1) your &lt;groupn&gt;-proj1-3.tar.gz file with your code and (2)
+your uncompressed README file. You need to submit these two files by
+April 3rd</p>.
+
+<p>Additionally, both teammates in each team will meet together with
+their project mentor between April 4th and April 7th. Your project
+mentor will email you shortly to schedule a 15 miniute meeting for either
+day. (If you haven't received an email from your project mentor by
+April 1st please contact your mentor immediately after that day.) During
+the meeting with your project mentor, you will show your mentor your
+application using a regular web browser:</p>
+<ul>
+  <li>You should have your application up and running so that you and
+  your project mentor can access it over the web simply by typing a
+  URL in a regular browser. Your project mentor will be running
+    Chrome.</li>
+  <li>Your project mentor should be able to interact with your
+  application and access the functionality that you specified in Part
+    1, over the database that you created for Part 2.</li>
+  <li>The project mentor might ask to look at your code during your
+    meeting.</li>
+  <li>Your web interface does not need to be fancy. (See Grading
+  below.) However, you should not force users to type SQL. The less
+  your web site looks like it is interacting with a relational
+  database, the better. At the very least, the user should be
+  completely shielded from having to type anything resembling
+  SQL. Most interactions should involve some sort of input values in
+  addition to the user pressing a "submit" button. Whenever possible,
+  input values should be specified using menus, radio buttons,
+  checkboxes, scrollers, etc. Text input boxes may also be
+  appropriate.</li>
+  
+  <li>Sophisticated error handling is not necessary; however your web
+  site definitely should not "lock up" (i.e., crash or become blocked)
+    regardless of how the user chooses to interact with it.</li>
+
+  <li>Your database should contain (at least) the data that you
+  entered for Part 2. You can, of course, add extra tuples to your
+  tables if you want to make interaction with your application more
+  interesting and revealing.</li>
+
+  <li>Your grade will suffer considerably if your application is not
+  running properly when you access it from your project mentor's
+  machine. It is your responsibility to ensure that your application
+    is up and running when you meet with your project mentor.</li>
+
+  <li>You should have a number of example interactions prepared so
+  that you can use your meeting time efficiently. The more you can
+  impress your project mentor during the 15-minute meeting, the better
+    your grade is likely to be, so come to the meeting prepared.</li>
+</ul>
+
+<h4>Grading for Web Front-End Option</h4>
+
+<p>Your grade for Part 3 of Project 1 will be a function of how well
+your application (which should be up and running) matches your
+specification that you submitted as Part 1, of how well you have
+incorporated any feedback that your project mentor has given you, and
+of how well you have followed the guidelines above. Your grade will
+not be influenced by how fancy the web-based user interface to your
+application is. It is sufficient and perfectly fine for this interface
+to be plain and simple as long as it supports the functionality that
+you indicated earlier, following the guidelines above about not having
+to type SQL commands, not "locking up" on unexpected input, etc.</p>
+
+<hr>
+
+<h3>Expanded-Design Option</h3>
+
+<p>If you are following the Expanded-Design Option, you need to follow
+the expansion plans that you outlined in Part 1, and:</p>
+<ol>
+  <li>Extend your E/R diagram from Part 1 to include the entity sets
+  and relationship sets&mdash;and all associated real-world
+    constraints&mdash;for your expanded design.</li>
+  <li>Extend your SQL schema from Part 2 of your database on our
+  PostgreSQL server to include the mapping of all new entity sets and
+  relationship sets, following the directions in Part 2 of the project
+    on how to specify constraints in your expanded SQL design.</li>
+  <li>Add tuples to your new tables on our PostgreSQL server,
+  following the guidelines on the number of tuples from Part 2 of the
+  project.</li>
+</ol>
+
+<h4>What to submit and when for Expanded-Design Option</h4>
+
+<p>You will submit this part of the project electronically on
+CourseWorks directly, along the lines of what you did for Part 2. The
+deadline is <strong>Monday April 3rd.</strong> Just as for
+Parts 1 and 2, you should submit your project exactly once per team,
+rather than once per student. To submit your project, you need to be
+in the Class view (not the Group view) on CourseWorks and then upload
+your file to the "Part 3" assignment under Assignments. You should
+submit one or more (uncompressed) files containing:</p>
+<ol>
+  <li>The name and UNI of both teammates.</li>
+  <li>The PostgreSQL account name for your database on our server
+  (i.e., specify which teammate's UNI we should use to identify the
+  database for your team.) This will normally be the same database
+  that you used for Part 2, but we need you to confirm that we should
+  check that database.</li>
+  <li>A textual description of your extensions on the database design,
+  explaining which entity sets and relationship sets are new, and how
+    you mapped them to SQL statements.</li>
+  <li>Your new, complete E/R diagram, including all of your entity
+  sets and relationship sets, both from Part 1 and the new ones from
+    Part 3.</li>
+  <li>The CREATE TABLE statements and any other elements of the full
+  database that you created on your PostgreSQL database. (We will of
+  course also check the schema directly on the database server, but we
+  need as well the statements as part of your submission file.) You
+  should include all of your tables, not just the new ones for Part
+    3.</li>
+  <li>Three "interesting" SQL queries over your expanded database,
+  with a sentence or two per query explaining what the query is
+  supposed to compute. Each of these queries should involve at least
+  one of the new tables that you added for Part 3. The goal of these
+  queries is to help us better understand your application and your
+  additions for Part 3. You will not be graded on these queries, but
+  we strongly suggest that you submit well formed queries that run
+  without problems, so please make sure that you have tested your
+  queries by running them on your database exactly as submitted (use
+    copy and paste).</li>
+</ol>
+
+<h4>Grading for Expanded Design Option</h4>
+
+<p>Your grade for Part 3 of Project 1 will be a function of how well
+you have incorporated any feedback that your project mentor has given
+you, and the following factors:</p>
+<ol>
+  <li>Quality of your expanded E/R diagram: We will evaluate how well
+  your expanded E/R diagram implements your plans for the
+  Expanded-Design Option from Part 1, and how well your expanded E/R
+  diagram models your application, including how well you modeled any
+  relevant real-world constraints.</li>
+  <li>Quality of your expanded SQL schema and implementation on
+  PostgreSQL: We will evaluate how well you mapped your expanded E/R
+  diagram, including constraints, into a SQL schema on PostgreSQL,
+    using the techniques that we covered in class.</li>
+  <li>Quality of your expanded constraint handling: We will evaluate
+  how well you managed to capture real-world constraints of your
+  expanded design through primary key, foreign key, unique, and
+    good-style attribute- and tuple-based CHECK constraints.</li>
+  <li>Quality of the expanded real-world (or at least realistic) data
+  that you loaded into the expanded database on PostgreSQL.</li>
+</ol>
+
+</div>
+<hr>
+</body>
+</html>

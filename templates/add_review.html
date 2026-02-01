@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Add Review</h2>
+  <form method="post">
+    <label>Customer</label>
+    <select name="customer_id" required>
+      {% for c in customers %}
+        <option value="{{ c.customer_id }}">{{ c.full_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Vehicle VIN</label>
+    <select name="vin" required>
+      {% for v in vehicles %}
+        <option value="{{ v.vin }}">{{ v.vin }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Rating (1-5)</label>
+    <input type="number" min="1" max="5" name="rating" required>
+
+    <label>Review Text</label>
+    <textarea name="review_text" rows="4" required></textarea>
+
+    <label>Review Date</label>
+    <input type="date" name="review_date" required>
+
+    <button type="submit">Submit Review</button>
+  </form>
+</div>
+{% endblock %}

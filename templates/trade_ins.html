@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Trade-Ins</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Trade-In ID</th>
+        <th>Sale ID</th>
+        <th>VIN</th>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Mileage</th>
+        <th>Allowance</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.trade_in_id }}</td>
+        <td>{{ r.sale_id }}</td>
+        <td>{{ r.vin }}</td>
+        <td>{{ r.make }}</td>
+        <td>{{ r.model }}</td>
+        <td>{{ r.model_year }}</td>
+        <td>{{ r.mileage }}</td>
+        <td>${{ '%.2f'|format(r.allowance) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

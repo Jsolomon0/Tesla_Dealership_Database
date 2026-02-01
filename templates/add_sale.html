@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Record Sale</h2>
+  <form method="post">
+    <label>Vehicle VIN</label>
+    <select name="vin" required>
+      {% for v in vehicles %}
+        <option value="{{ v.vin }}">{{ v.vin }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Customer</label>
+    <select name="customer_id" required>
+      {% for c in customers %}
+        <option value="{{ c.customer_id }}">{{ c.full_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Employee</label>
+    <select name="employee_id" required>
+      {% for e in employees %}
+        <option value="{{ e.employee_id }}">{{ e.full_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Sale Date</label>
+    <input type="date" name="sale_date" required>
+
+    <label>Sale Price</label>
+    <input type="number" step="0.01" name="sale_price" required>
+
+    <button type="submit">Record Sale</button>
+  </form>
+</div>
+{% endblock %}

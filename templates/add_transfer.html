@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Add Transfer</h2>
+  <form method="post">
+    <label>Vehicle VIN</label>
+    <select name="vin" required>
+      {% for v in vehicles %}
+        <option value="{{ v.vin }}">{{ v.vin }}</option>
+      {% endfor %}
+    </select>
+
+    <label>From Dealership</label>
+    <select name="from_dealership_id" required>
+      {% for d in dealerships %}
+        <option value="{{ d.dealership_id }}">{{ d.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>To Dealership</label>
+    <select name="to_dealership_id" required>
+      {% for d in dealerships %}
+        <option value="{{ d.dealership_id }}">{{ d.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Transfer Date</label>
+    <input type="date" name="transfer_date" required>
+
+    <label>Status</label>
+    <select name="status" required>
+      <option value="Requested">Requested</option>
+      <option value="In Transit">In Transit</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <button type="submit">Add Transfer</button>
+  </form>
+</div>
+{% endblock %}

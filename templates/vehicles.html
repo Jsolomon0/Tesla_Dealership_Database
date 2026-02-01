@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Browse Vehicles</h2>
+  <form method="get">
+    <label>Model</label>
+    <select name="model_id">
+      <option value="">All</option>
+      {% for m in models %}
+        <option value="{{ m.model_id }}" {% if selected_model and selected_model|int == m.model_id %}selected{% endif %}>{{ m.model_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Dealership</label>
+    <select name="dealership_id">
+      <option value="">All</option>
+      {% for d in dealerships %}
+        <option value="{{ d.dealership_id }}" {% if selected_dealership and selected_dealership|int == d.dealership_id %}selected{% endif %}>{{ d.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label>
+      <input type="checkbox" name="available_only" {% if available_only %}checked{% endif %}>
+      Available only
+    </label>
+
+    <button type="submit">Filter</button>
+  </form>
+</div>
+
+<div class="card">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>VIN</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Color</th>
+        <th>Mileage</th>
+        <th>Price</th>
+        <th>Available</th>
+        <th>Dealership</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td><a href="{{ url_for('vehicle_detail', vin=r.vin) }}">{{ r.vin }}</a></td>
+        <td>{{ r.model_name }}</td>
+        <td>{{ r.model_year }}</td>
+        <td>{{ r.color }}</td>
+        <td>{{ r.mileage }}</td>
+        <td>${{ '%.2f'|format(r.price) }}</td>
+        <td>{{ 'Yes' if r.available else 'No' }}</td>
+        <td>{{ r.dealership }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
